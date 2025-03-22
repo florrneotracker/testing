@@ -5,9 +5,9 @@ const terminal = document.getElementById("terminal");
 const mainInterface = document.getElementById("main-interface");
 const intro = document.getElementById("intro");
 
-let failCounter = localStorage.getItem("failCounter") || 0; // Store failed attempts
+let failCounter = parseInt(localStorage.getItem("failCounter")) || 0; 
 
-const funnyMessages = [
+let funnyMessages = [
     "Okay... Are you doing this on purpose?",
     "Bro, just stop. It's embarrassing.",
     "This isn't a guessing game, you know.",
@@ -94,8 +94,15 @@ async function validateKey() {
             failCounter++;
             localStorage.setItem("failCounter", failCounter);
 
-            if (failCounter >= 3) {
-                const message = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+            if (failCounter >= 7) {
+                await typeEffect("💀 Okay, you know what... die.");
+                setTimeout(() => location.reload(), 2000);
+                return;
+            }
+
+            if (failCounter >= 3 && funnyMessages.length > 0) {
+                const randomIndex = Math.floor(Math.random() * funnyMessages.length);
+                const message = funnyMessages.splice(randomIndex, 1)[0]; // Remove message after using
                 await typeEffect(`💀 ${message}`);
             } else {
                 await typeEffect("❌ Invalid key. Please enter a new one.");
