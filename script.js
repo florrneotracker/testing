@@ -5,7 +5,7 @@ const terminal = document.getElementById("terminal");
 const neoTrackerAnim = document.getElementById("neotracker-animation");
 const mainInterface = document.getElementById("main-interface");
 
-// 🔥 Typing effect function
+// 🔥 Typing effect for terminal
 async function typeEffect(text, speed = 50) {
     for (let char of text) {
         output.innerHTML += char;
@@ -58,7 +58,7 @@ async function validateKey() {
 
         if (data.success) {
             await typeEffect("✅ Access granted!");
-            setTimeout(startNeoTrackerAnimation, 1000);
+            setTimeout(startNeoTrackerAnimation, 1000); // Wait before starting animation
         } else {
             await typeEffect("❌ Invalid key. Please enter a new one.");
             deleteCookie("auth_key");
@@ -70,25 +70,27 @@ async function validateKey() {
     }
 }
 
-// 🔥 Function to start the NeoTracker animation
+// 🔥 Function to start the NeoTracker animation (only plays once)
 function startNeoTrackerAnimation() {
     terminal.style.opacity = "0"; // Fade out terminal
     setTimeout(() => {
         terminal.style.display = "none";
         neoTrackerAnim.style.display = "flex";
         neoTrackerAnim.style.opacity = "1"; // Fade in
-        setTimeout(transitionToMainUI, 2500); // After animation, show UI
+        setTimeout(() => {
+            neoTrackerAnim.style.opacity = "0"; // Fade out animation
+            setTimeout(transitionToMainUI, 1500); // Wait before showing UI
+        }, 2500);
     }, 1000);
 }
 
 // 🔥 Function to transition to the main UI
 function transitionToMainUI() {
-    neoTrackerAnim.style.opacity = "0"; // Fade out animation
+    neoTrackerAnim.style.display = "none";
+    mainInterface.style.display = "flex";
     setTimeout(() => {
-        neoTrackerAnim.style.display = "none";
-        mainInterface.style.display = "flex";
         mainInterface.style.opacity = "1"; // Fade in main UI
-    }, 1500);
+    }, 500);
 }
 
 // 🔥 Handle user key input
