@@ -28,7 +28,7 @@
             border: 2px solid green;
             min-height: 300px;
             overflow-y: auto;
-            transition: opacity 1s ease-out;
+            transition: opacity 1.5s ease-out;
         }
         #input-line {
             display: flex;
@@ -39,6 +39,9 @@
             background: green;
             animation: blink 0.8s infinite;
         }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
         input {
             font-family: monospace;
             font-size: 16px;
@@ -48,39 +51,24 @@
             outline: none;
             width: 80%;
         }
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-        /* NeoTracker Animation */
-        #neotracker-animation {
-            display: none;
-            position: absolute;
+        /* NeoTracker Presents Animation */
+        #intro {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             background: black;
-            color: green;
-            font-size: 30px;
-            font-weight: bold;
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
+            font-size: 3rem;
             opacity: 0;
-            animation: fadeIn 2s forwards, glitch 1.5s infinite;
+            transform: scale(0.9);
+            transition: opacity 1s ease-in, transform 1s ease-in;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes glitch {
-            0% { transform: translate(0, 0); }
-            25% { transform: translate(-2px, 2px); }
-            50% { transform: translate(2px, -2px); }
-            75% { transform: translate(-2px, 2px); }
-            100% { transform: translate(0, 0); }
-        }
-        /* Main UI */
+        /* Hidden main interface (will show after login) */
         #main-interface {
             display: none;
             width: 100vw;
@@ -91,7 +79,6 @@
             justify-content: center;
             align-items: center;
             font-size: 24px;
-            opacity: 0;
             transition: opacity 1.5s ease-in;
         }
     </style>
@@ -106,10 +93,10 @@
         </div>
     </div>
 
-    <!-- NeoTracker Animation -->
-    <div id="neotracker-animation">NeoTracker Team Presents</div>
+    <!-- Intro Animation -->
+    <div id="intro">NeoTracker Team Presents</div>
 
-    <!-- Main Interface -->
+    <!-- Main Interface (Hidden Initially) -->
     <div id="main-interface">
         <h1>Welcome to NeoTracker</h1>
     </div>
