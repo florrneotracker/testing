@@ -18,6 +18,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
         #terminal {
             width: 80%;
@@ -27,6 +28,7 @@
             border: 2px solid green;
             min-height: 300px;
             overflow-y: auto;
+            transition: opacity 1.5s ease-out;
         }
         #input-line {
             display: flex;
@@ -49,6 +51,19 @@
             outline: none;
             width: 80%;
         }
+        /* Hidden main interface (will show after login) */
+        #main-interface {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            background-color: #121212;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            transition: opacity 1.5s ease-in;
+        }
     </style>
 </head>
 <body>
@@ -59,6 +74,11 @@
             <input type="text" id="key-input" placeholder="Enter access key...">
             <span id="cursor">&nbsp;</span>
         </div>
+    </div>
+
+    <!-- Main Interface (Hidden Initially) -->
+    <div id="main-interface">
+        <h1>Welcome to NeoTracker</h1>
     </div>
 </body>
 </html>
