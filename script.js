@@ -1,6 +1,8 @@
 const API_URL = "https://florrneotracker.pythonanywhere.com/auth";
 const output = document.getElementById("output");
 const inputField = document.getElementById("key-input");
+const terminal = document.getElementById("terminal");
+const mainInterface = document.getElementById("main-interface");
 
 // 🔥 Function to simulate terminal typing effect
 async function typeEffect(text, speed = 50) {
@@ -35,6 +37,16 @@ function deleteCookie(name) {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
 
+// 🔥 Function to fade out the terminal and show the main UI
+function transitionToMainUI() {
+    terminal.style.opacity = "0"; // Fade out
+    setTimeout(() => {
+        terminal.style.display = "none";
+        mainInterface.style.display = "flex";
+        mainInterface.style.opacity = "1"; // Fade in
+    }, 1500);
+}
+
 // 🔥 Function to validate the stored key with the API
 async function validateKey() {
     const key = getCookie("auth_key");
@@ -59,6 +71,7 @@ async function validateKey() {
 
         if (data.success) {
             await typeEffect("✅ Access granted!");
+            setTimeout(transitionToMainUI, 1000); // Start UI transition
         } else {
             await typeEffect("❌ Invalid key. Please enter a new one.");
             deleteCookie("auth_key");
@@ -83,8 +96,9 @@ inputField.addEventListener("keypress", async function (event) {
     }
 });
 
-// ✅ Run validation on page load
+// ✅ Show intro animation, then validate key
 window.onload = async function () {
-    await typeEffect("NeoTracker Authorization System\n---------------------------");
+    await typeEffect("NeoTracker Team Presents\n", 100);
+    await typeEffect("---------------------------\n", 50);
     await validateKey();
 };
