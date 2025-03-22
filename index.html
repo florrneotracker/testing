@@ -3,22 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authorization Testing</title>
+    <title>NeoTracker Authorization</title>
     <script defer src="script.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        #auth-container { display: none; margin-top: 20px; }
-        input { padding: 10px; width: 250px; }
-        button { padding: 10px; cursor: pointer; }
+        body {
+            font-family: monospace;
+            background-color: black;
+            color: green;
+            text-align: left;
+            padding: 20px;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #terminal {
+            width: 80%;
+            max-width: 600px;
+            background: black;
+            padding: 20px;
+            border: 2px solid green;
+            min-height: 300px;
+            overflow-y: auto;
+        }
+        #input-line {
+            display: flex;
+        }
+        #cursor {
+            display: inline-block;
+            width: 10px;
+            background: green;
+            animation: blink 0.8s infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        input {
+            font-family: monospace;
+            font-size: 16px;
+            background: black;
+            color: green;
+            border: none;
+            outline: none;
+            width: 80%;
+        }
     </style>
 </head>
 <body>
-    <h1>NeoTracker Authorization</h1>
-    <p id="status">Checking authentication...</p>
-    
-    <div id="auth-container">
-        <input type="text" id="key-input" placeholder="Enter your access key">
-        <button onclick="submitKey()">Submit</button>
+    <div id="terminal">
+        <div id="output"></div>
+        <div id="input-line">
+            <span>$</span>&nbsp;
+            <input type="text" id="key-input" placeholder="Enter access key...">
+            <span id="cursor">&nbsp;</span>
+        </div>
     </div>
 </body>
 </html>
