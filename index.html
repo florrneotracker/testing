@@ -51,7 +51,6 @@
         @keyframes blink {
             50% { opacity: 0; }
         }
-
         /* NeoTracker Animation */
         #neotracker-animation {
             display: none;
@@ -67,34 +66,12 @@
             justify-content: center;
             align-items: center;
             opacity: 0;
-            transition: opacity 1.5s ease-in;
-        }
-        #presents-text {
-            font-size: 40px;
-            font-weight: bold;
-            text-transform: uppercase;
-            opacity: 0;
             animation: fadeIn 2s forwards;
-        }
-        .glow-effect {
-            animation: glow 1s infinite alternate;
-        }
-        @keyframes glow {
-            from { text-shadow: 0px 0px 5px green; }
-            to { text-shadow: 0px 0px 15px lime; }
         }
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        .fade-out {
-            animation: fadeOut 2s forwards;
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-
         /* Main UI */
         #main-interface {
             display: none;
@@ -121,9 +98,7 @@
     </div>
 
     <!-- NeoTracker Animation -->
-    <div id="neotracker-animation">
-        <span id="presents-text"></span>
-    </div>
+    <div id="neotracker-animation">NeoTracker Team Presents</div>
 
     <!-- Main Interface -->
     <div id="main-interface">
