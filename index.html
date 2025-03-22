@@ -66,11 +66,29 @@
             justify-content: center;
             align-items: center;
             opacity: 0;
-            animation: fadeIn 2s forwards;
+            transition: opacity 1.5s ease-in;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        #presents-text {
+            font-size: 40px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        @keyframes glitch {
+            0% { text-shadow: 3px 3px red; }
+            25% { text-shadow: -3px -3px blue; }
+            50% { text-shadow: 3px -3px green; }
+            75% { text-shadow: -3px 3px yellow; }
+            100% { text-shadow: 3px 3px red; }
+        }
+        .glitch {
+            animation: glitch 0.2s infinite;
+        }
+        .fade-out {
+            animation: fadeOut 2s forwards;
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
         /* Main UI */
         #main-interface {
@@ -98,7 +116,9 @@
     </div>
 
     <!-- NeoTracker Animation -->
-    <div id="neotracker-animation">NeoTracker Team Presents</div>
+    <div id="neotracker-animation">
+        <span id="presents-text"></span>
+    </div>
 
     <!-- Main Interface -->
     <div id="main-interface">
