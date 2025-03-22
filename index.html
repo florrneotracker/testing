@@ -28,7 +28,7 @@
             border: 2px solid green;
             min-height: 300px;
             overflow-y: auto;
-            transition: opacity 1.5s ease-out;
+            transition: opacity 1s ease-out;
         }
         #input-line {
             display: flex;
@@ -39,9 +39,6 @@
             background: green;
             animation: blink 0.8s infinite;
         }
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
         input {
             font-family: monospace;
             font-size: 16px;
@@ -51,7 +48,39 @@
             outline: none;
             width: 80%;
         }
-        /* Hidden main interface (will show after login) */
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        /* NeoTracker Animation */
+        #neotracker-animation {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: black;
+            color: green;
+            font-size: 30px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 2s forwards, glitch 1.5s infinite;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes glitch {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-2px, 2px); }
+            50% { transform: translate(2px, -2px); }
+            75% { transform: translate(-2px, 2px); }
+            100% { transform: translate(0, 0); }
+        }
+        /* Main UI */
         #main-interface {
             display: none;
             width: 100vw;
@@ -62,6 +91,7 @@
             justify-content: center;
             align-items: center;
             font-size: 24px;
+            opacity: 0;
             transition: opacity 1.5s ease-in;
         }
     </style>
@@ -76,7 +106,10 @@
         </div>
     </div>
 
-    <!-- Main Interface (Hidden Initially) -->
+    <!-- NeoTracker Animation -->
+    <div id="neotracker-animation">NeoTracker Team Presents</div>
+
+    <!-- Main Interface -->
     <div id="main-interface">
         <h1>Welcome to NeoTracker</h1>
     </div>
