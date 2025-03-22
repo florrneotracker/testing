@@ -6,22 +6,16 @@ const neoTrackerAnim = document.getElementById("neotracker-animation");
 const mainInterface = document.getElementById("main-interface");
 const presentsText = document.getElementById("presents-text");
 
-// 🔥 Typing effect for a realistic boot-up animation
-async function typeEffect(element, text, speed = 50, glitch = false) {
+// 🔥 Typewriter Effect (Replaces glitch)
+async function typeEffect(element, text, speed = 50) {
     element.innerHTML = "";
     for (let char of text) {
-        element.innerHTML += glitch && Math.random() > 0.8 ? randomChar() : char;
+        element.innerHTML += char;
         await new Promise(resolve => setTimeout(resolve, speed));
     }
 }
 
-// 🔥 Random glitch effect characters
-function randomChar() {
-    const chars = "!@#$%^&*()_+=-{}[]:;<>?/|";
-    return chars[Math.floor(Math.random() * chars.length)];
-}
-
-// 🔥 Validate the stored key
+// 🔥 Validate Key & Start Animation
 async function validateKey() {
     const key = getCookie("auth_key");
 
@@ -57,24 +51,26 @@ async function validateKey() {
     }
 }
 
-// 🔥 NeoTracker Animation (NOW FIXED)
+// 🔥 NeoTracker Cinematic Animation
 async function startNeoTrackerAnimation() {
     terminal.style.opacity = "0";
+
     setTimeout(async () => {
         terminal.style.display = "none";
         neoTrackerAnim.style.display = "flex";
         neoTrackerAnim.style.opacity = "1";
 
-        await typeEffect(presentsText, "NeoTracker Team Presents", 80, true);
+        await typeEffect(presentsText, "NeoTracker Team Presents", 100);
+        presentsText.classList.add("glow-effect"); // Smooth glow animation
 
         setTimeout(() => {
-            neoTrackerAnim.classList.add("fade-out"); // Smooth fade-out
+            neoTrackerAnim.classList.add("fade-out");
             setTimeout(transitionToMainUI, 2000);
         }, 2500);
     }, 1000);
 }
 
-// 🔥 Transition to Main UI (NOW WORKS PROPERLY)
+// 🔥 Transition to Main UI
 function transitionToMainUI() {
     neoTrackerAnim.style.display = "none";
     mainInterface.style.display = "flex";
