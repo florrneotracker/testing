@@ -6,7 +6,7 @@ const neoTrackerAnim = document.getElementById("neotracker-animation");
 const mainInterface = document.getElementById("main-interface");
 const presentsText = document.getElementById("presents-text");
 
-// 🔥 Typing effect for terminal-style animations
+// 🔥 Typing effect for a realistic boot-up animation
 async function typeEffect(element, text, speed = 50, glitch = false) {
     element.innerHTML = "";
     for (let char of text) {
@@ -57,7 +57,7 @@ async function validateKey() {
     }
 }
 
-// 🔥 NeoTracker Animation with Glitch Effect
+// 🔥 NeoTracker Animation (NOW FIXED)
 async function startNeoTrackerAnimation() {
     terminal.style.opacity = "0";
     setTimeout(async () => {
@@ -74,7 +74,7 @@ async function startNeoTrackerAnimation() {
     }, 1000);
 }
 
-// 🔥 Transition to Main UI
+// 🔥 Transition to Main UI (NOW WORKS PROPERLY)
 function transitionToMainUI() {
     neoTrackerAnim.style.display = "none";
     mainInterface.style.display = "flex";
