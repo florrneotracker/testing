@@ -1,14 +1,11 @@
-const API_URL = "https://florrneotracker.pythonanywhere.com/auth"; // Your Flask API
+const API_URL = "https://florrneotracker.pythonanywhere.com/auth";
 
-// 🔥 Function to get a cookie value by name
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
     return null;
 }
-
-// 🔥 Function to set a cookie
 function setCookie(name, value, days) {
     let expires = "";
     if (days) {
@@ -18,13 +15,9 @@ function setCookie(name, value, days) {
     }
     document.cookie = `${name}=${value}${expires}; path=/`;
 }
-
-// 🔥 Function to delete a cookie
 function deleteCookie(name) {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
-
-// 🔥 Function to validate the stored key with the API
 async function validateKey() {
     const key = getCookie("auth_key");
     const statusText = document.getElementById("status");
@@ -32,7 +25,7 @@ async function validateKey() {
 
     if (!key) {
         statusText.innerText = "No key found. Please enter your key.";
-        authContainer.style.display = "block"; // Show input field
+        authContainer.style.display = "block";
         return;
     }
 
@@ -50,26 +43,23 @@ async function validateKey() {
             statusText.innerText = "✅ Access granted!";
         } else {
             console.warn("❌ Invalid key:", data.error);
-            deleteCookie("auth_key"); // 🔥 Delete invalid key
+            deleteCookie("auth_key");
             statusText.innerText = "❌ Invalid key. Please enter a new one.";
-            authContainer.style.display = "block"; // Show input field
+            authContainer.style.display = "block";
         }
     } catch (error) {
         console.error("⚠️ Error validating key:", error);
         statusText.innerText = "⚠️ Error connecting to server.";
     }
 }
-
-// 🔥 Function to handle key submission
 function submitKey() {
     const keyInput = document.getElementById("key-input").value.trim();
     if (keyInput) {
-        setCookie("auth_key", keyInput, 7); // Save key for 7 days
-        document.getElementById("auth-container").style.display = "none"; // Hide input field
+        setCookie("auth_key", keyInput, 30);
+        document.getElementById("auth-container").style.display = "none";
         document.getElementById("status").innerText = "Checking authentication...";
-        validateKey(); // Revalidate the key
+        validateKey();
     }
 }
 
-// ✅ Run validation on page load
 validateKey();
