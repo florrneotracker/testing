@@ -2,9 +2,10 @@ const API_URL = "https://florrneotracker.pythonanywhere.com/auth";
 const output = document.getElementById("output");
 const inputField = document.getElementById("key-input");
 const terminal = document.getElementById("terminal");
+const neoTrackerAnim = document.getElementById("neotracker-animation");
 const mainInterface = document.getElementById("main-interface");
 
-// 🔥 Function to simulate terminal typing effect
+// 🔥 Typing effect function
 async function typeEffect(text, speed = 50) {
     for (let char of text) {
         output.innerHTML += char;
@@ -13,15 +14,13 @@ async function typeEffect(text, speed = 50) {
     output.innerHTML += "<br>";
 }
 
-// 🔥 Function to get a cookie value by name
+// 🔥 Cookie functions
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
     return null;
 }
-
-// 🔥 Function to set a cookie
 function setCookie(name, value, days) {
     let expires = "";
     if (days) {
@@ -31,23 +30,11 @@ function setCookie(name, value, days) {
     }
     document.cookie = `${name}=${value}${expires}; path=/`;
 }
-
-// 🔥 Function to delete a cookie
 function deleteCookie(name) {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
 
-// 🔥 Function to fade out the terminal and show the main UI
-function transitionToMainUI() {
-    terminal.style.opacity = "0"; // Fade out
-    setTimeout(() => {
-        terminal.style.display = "none";
-        mainInterface.style.display = "flex";
-        mainInterface.style.opacity = "1"; // Fade in
-    }, 1500);
-}
-
-// 🔥 Function to validate the stored key with the API
+// 🔥 Function to validate the stored key
 async function validateKey() {
     const key = getCookie("auth_key");
 
@@ -71,7 +58,7 @@ async function validateKey() {
 
         if (data.success) {
             await typeEffect("✅ Access granted!");
-            setTimeout(transitionToMainUI, 1000); // Start UI transition
+            setTimeout(startNeoTrackerAnimation, 1000);
         } else {
             await typeEffect("❌ Invalid key. Please enter a new one.");
             deleteCookie("auth_key");
@@ -83,7 +70,28 @@ async function validateKey() {
     }
 }
 
-// 🔥 Function to handle key submission
+// 🔥 Function to start the NeoTracker animation
+function startNeoTrackerAnimation() {
+    terminal.style.opacity = "0"; // Fade out terminal
+    setTimeout(() => {
+        terminal.style.display = "none";
+        neoTrackerAnim.style.display = "flex";
+        neoTrackerAnim.style.opacity = "1"; // Fade in
+        setTimeout(transitionToMainUI, 2500); // After animation, show UI
+    }, 1000);
+}
+
+// 🔥 Function to transition to the main UI
+function transitionToMainUI() {
+    neoTrackerAnim.style.opacity = "0"; // Fade out animation
+    setTimeout(() => {
+        neoTrackerAnim.style.display = "none";
+        mainInterface.style.display = "flex";
+        mainInterface.style.opacity = "1"; // Fade in main UI
+    }, 1500);
+}
+
+// 🔥 Handle user key input
 inputField.addEventListener("keypress", async function (event) {
     if (event.key === "Enter") {
         const key = inputField.value.trim();
@@ -96,9 +104,7 @@ inputField.addEventListener("keypress", async function (event) {
     }
 });
 
-// ✅ Show intro animation, then validate key
+// ✅ Start key validation on load
 window.onload = async function () {
-    await typeEffect("NeoTracker Team Presents\n", 100);
-    await typeEffect("---------------------------\n", 50);
     await validateKey();
 };
