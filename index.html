@@ -4,84 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auth Key System</title>
-    <script>
-        const API_URL = "https://florrneotracker.pythonanywhere.com"; // Change to your real API URL
-
-        function getCookie(name) {
-            let cookies = document.cookie.split('; ');
-            for (let cookie of cookies) {
-                let [key, value] = cookie.split('=');
-                if (key === name) return value;
-            }
-            return null;
-        }
-
-        function setCookie(name, value, days) {
-            let expires = new Date();
-            expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-            document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
-        }
-
-        async function validateKey(key) {
-            let response = await fetch(`${API_URL}/auth`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ key: key })
-            });
-
-            let data = await response.json();
-            if (data.success) {
-                setCookie("auth_key", key, 30); // Store the key for 7 days
-                alert("Access granted!");
-                location.reload();
-            } else {
-                alert("Invalid or already used key.");
-            }
-        }
-
-        async function requestKey() {
-            let response = await fetch(`${API_URL}/generate`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" }
-            });
-
-            let data = await response.json();
-            if (data.success) {
-                alert("Generated Key: " + data.key);
-                validateKey(data.key);
-            } else {
-                alert("Failed to generate key: " + data.error);
-            }
-        }
-
-        function requestAccess() {
-            let key = prompt("Enter your access key:");
-            if (key) validateKey(key);
-        }
-
-        window.onload = async function () {
-            let storedKey = getCookie("auth_key");
-            if (storedKey) {
-                let response = await fetch(`${API_URL}/auth`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ key: storedKey })
-                });
-
-                let data = await response.json();
-                if (!data.success) {
-                    document.cookie = "auth_key=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    requestAccess();
-                }
-            } else {
-                requestAccess();
-            }
-        };
-    </script>
+    <script defer src="index.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        #auth-container { display: none; margin-top: 20px; }
+        input { padding: 10px; width: 250px; }
+        button { padding: 10px; cursor: pointer; }
+    </style>
 </head>
 <body>
-    <h1>Protected Page</h1>
-    <p>If you see this, you've passed authentication.</p>
-    <button onclick="requestKey()">Generate New Key</button>
+    <h1>Welcome to the Auth System</h1>
+    <p id="status">Checking authentication...</p>
+    
+    <div id="auth-container">
+        <input type="text" id="key-input" placeholder="Enter your access key">
+        <button onclick="submitKey()">Submit</button>
+    </div>
 </body>
 </html>
