@@ -51,6 +51,7 @@
         @keyframes blink {
             50% { opacity: 0; }
         }
+
         /* NeoTracker Animation */
         #neotracker-animation {
             display: none;
@@ -72,16 +73,19 @@
             font-size: 40px;
             font-weight: bold;
             text-transform: uppercase;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
         }
-        @keyframes glitch {
-            0% { text-shadow: 3px 3px red; }
-            25% { text-shadow: -3px -3px blue; }
-            50% { text-shadow: 3px -3px green; }
-            75% { text-shadow: -3px 3px yellow; }
-            100% { text-shadow: 3px 3px red; }
+        .glow-effect {
+            animation: glow 1s infinite alternate;
         }
-        .glitch {
-            animation: glitch 0.2s infinite;
+        @keyframes glow {
+            from { text-shadow: 0px 0px 5px green; }
+            to { text-shadow: 0px 0px 15px lime; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .fade-out {
             animation: fadeOut 2s forwards;
@@ -90,6 +94,7 @@
             from { opacity: 1; }
             to { opacity: 0; }
         }
+
         /* Main UI */
         #main-interface {
             display: none;
