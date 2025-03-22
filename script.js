@@ -5,7 +5,19 @@ const terminal = document.getElementById("terminal");
 const mainInterface = document.getElementById("main-interface");
 const intro = document.getElementById("intro");
 
-// 🔥 Function to simulate terminal typing effect
+let failCounter = localStorage.getItem("failCounter") || 0; // Store failed attempts
+
+const funnyMessages = [
+    "Okay... Are you doing this on purpose?",
+    "Bro, just stop. It's embarrassing.",
+    "This isn't a guessing game, you know.",
+    "Okay, you are clearly not worthy. Quit it.",
+    "You know that I spend money to handle those requests, you are being annoying bruh.",
+    "Imagine bruteforcing.",
+    "You remind me of zira... we don't talk about zira.",
+    "THY END IS NOW."
+];
+
 async function typeEffect(text, speed = 50) {
     for (let char of text) {
         output.innerHTML += char;
@@ -14,7 +26,6 @@ async function typeEffect(text, speed = 50) {
     output.innerHTML += "<br>";
 }
 
-// 🔥 Function to get a cookie value by name
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -22,7 +33,6 @@ function getCookie(name) {
     return null;
 }
 
-// 🔥 Function to set a cookie
 function setCookie(name, value, days) {
     let expires = "";
     if (days) {
@@ -33,21 +43,18 @@ function setCookie(name, value, days) {
     document.cookie = `${name}=${value}${expires}; path=/`;
 }
 
-// 🔥 Function to delete a cookie
 function deleteCookie(name) {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
 
-// 🔥 Function to trigger the "NeoTracker Presents" animation
 function showIntroAnimation() {
-    terminal.style.opacity = "0"; // Fade out terminal
+    terminal.style.opacity = "0";
     setTimeout(() => {
-        terminal.style.display = "none"; // Hide terminal
+        terminal.style.display = "none";
         intro.style.opacity = "1";
-        intro.style.transform = "scale(1)"; // Appear smoothly
+        intro.style.transform = "scale(1)";
     }, 1500);
 
-    // After intro, switch to UI
     setTimeout(() => {
         intro.style.opacity = "0";
         setTimeout(() => {
@@ -58,7 +65,6 @@ function showIntroAnimation() {
     }, 4000);
 }
 
-// 🔥 Function to validate the stored key with the API
 async function validateKey() {
     const key = getCookie("auth_key");
 
@@ -82,9 +88,19 @@ async function validateKey() {
 
         if (data.success) {
             await typeEffect("✅ Access granted!");
-            setTimeout(showIntroAnimation, 1000); // Start intro animation
+            localStorage.setItem("failCounter", 0); // Reset fail counter
+            setTimeout(showIntroAnimation, 1000);
         } else {
-            await typeEffect("❌ Invalid key. Please enter a new one.");
+            failCounter++;
+            localStorage.setItem("failCounter", failCounter);
+
+            if (failCounter >= 3) {
+                const message = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+                await typeEffect(`💀 ${message}`);
+            } else {
+                await typeEffect("❌ Invalid key. Please enter a new one.");
+            }
+
             deleteCookie("auth_key");
             inputField.style.display = "inline-block";
             inputField.focus();
@@ -94,7 +110,6 @@ async function validateKey() {
     }
 }
 
-// 🔥 Function to handle key submission
 inputField.addEventListener("keypress", async function (event) {
     if (event.key === "Enter") {
         const key = inputField.value.trim();
@@ -107,7 +122,6 @@ inputField.addEventListener("keypress", async function (event) {
     }
 });
 
-// ✅ Validate key first, then run animations if valid
 window.onload = async function () {
     await validateKey();
 };
