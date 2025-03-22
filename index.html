@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NeoTracker Authorization</title>
     <script defer src="script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: monospace;
-            background-color: black;
-            color: green;
-            text-align: left;
-            padding: 20px;
+            font-family: 'Ubuntu', sans-serif;
+            background-color: #121212;
+            color: white;
             margin: 0;
             height: 100vh;
             display: flex;
@@ -68,18 +67,40 @@
             transform: scale(0.9);
             transition: opacity 1s ease-in, transform 1s ease-in;
         }
-        /* Hidden main interface (will show after login) */
+        /* Main Interface Styling */
         #main-interface {
             display: none;
             width: 100vw;
             height: 100vh;
             background-color: #121212;
-            color: white;
-            display: none;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 24px;
-            transition: opacity 1.5s;
+        }
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        .menu-button {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .menu-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
         }
     </style>
 </head>
@@ -98,7 +119,12 @@
 
     <!-- Main Interface (Hidden Initially) -->
     <div id="main-interface">
-        <h1>Welcome to NeoTracker</h1>
+        <h1>NeoTracker</h1>
+        <div class="menu">
+            <button class="menu-button" onclick="openSuperTracker()">Super Tracker</button>
+            <button class="menu-button" onclick="openServerAccess()">Server Access Code Generator</button>
+            <button class="menu-button" onclick="openSettings()">Settings</button>
+        </div>
     </div>
 </body>
 </html>
