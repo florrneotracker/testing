@@ -1,11 +1,25 @@
 const API_URL = "https://florrneotracker.pythonanywhere.com/auth";
+const output = document.getElementById("output");
+const inputField = document.getElementById("key-input");
 
+// 🔥 Function to simulate terminal typing effect
+async function typeEffect(text, speed = 50) {
+    for (let char of text) {
+        output.innerHTML += char;
+        await new Promise(resolve => setTimeout(resolve, speed));
+    }
+    output.innerHTML += "<br>";
+}
+
+// 🔥 Function to get a cookie value by name
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
     return null;
 }
+
+// 🔥 Function to set a cookie
 function setCookie(name, value, days) {
     let expires = "";
     if (days) {
@@ -15,19 +29,24 @@ function setCookie(name, value, days) {
     }
     document.cookie = `${name}=${value}${expires}; path=/`;
 }
+
+// 🔥 Function to delete a cookie
 function deleteCookie(name) {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
+
+// 🔥 Function to validate the stored key with the API
 async function validateKey() {
     const key = getCookie("auth_key");
-    const statusText = document.getElementById("status");
-    const authContainer = document.getElementById("auth-container");
 
     if (!key) {
-        statusText.innerText = "No key found. Please enter your key.";
-        authContainer.style.display = "block";
+        await typeEffect("No key found. Please enter your access key:");
+        inputField.style.display = "inline-block";
+        inputField.focus();
         return;
     }
+
+    await typeEffect("Validating key...");
 
     try {
         const response = await fetch(API_URL, {
@@ -39,27 +58,33 @@ async function validateKey() {
         const data = await response.json();
 
         if (data.success) {
-            console.log("✅ Key is valid!");
-            statusText.innerText = "✅ Access granted!";
+            await typeEffect("✅ Access granted!");
         } else {
-            console.warn("❌ Invalid key:", data.error);
+            await typeEffect("❌ Invalid key. Please enter a new one.");
             deleteCookie("auth_key");
-            statusText.innerText = "❌ Invalid key. Please enter a new one.";
-            authContainer.style.display = "block";
+            inputField.style.display = "inline-block";
+            inputField.focus();
         }
     } catch (error) {
-        console.error("⚠️ Error validating key:", error);
-        statusText.innerText = "⚠️ Error connecting to server.";
-    }
-}
-function submitKey() {
-    const keyInput = document.getElementById("key-input").value.trim();
-    if (keyInput) {
-        setCookie("auth_key", keyInput, 30);
-        document.getElementById("auth-container").style.display = "none";
-        document.getElementById("status").innerText = "Checking authentication...";
-        validateKey();
+        await typeEffect("⚠️ Error connecting to server.");
     }
 }
 
-validateKey();
+// 🔥 Function to handle key submission
+inputField.addEventListener("keypress", async function (event) {
+    if (event.key === "Enter") {
+        const key = inputField.value.trim();
+        if (key) {
+            inputField.style.display = "none";
+            output.innerHTML += `$ ${key} <br>`;
+            setCookie("auth_key", key, 30);
+            await validateKey();
+        }
+    }
+});
+
+// ✅ Run validation on page load
+window.onload = async function () {
+    await typeEffect("NeoTracker Authorization System\n---------------------------");
+    await validateKey();
+};
