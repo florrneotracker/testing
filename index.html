@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auth Key System</title>
     <script>
-        const API_URL = "https://your-pythonanywhere-username.pythonanywhere.com"; // Change to your real API URL
+        const API_URL = "https://florrneotracker.pythonanywhere.com"; // Change to your real API URL
 
         function getCookie(name) {
             let cookies = document.cookie.split('; ');
@@ -31,7 +31,7 @@
 
             let data = await response.json();
             if (data.success) {
-                setCookie("auth_key", key, 7); // Store the key for 7 days
+                setCookie("auth_key", key, 30); // Store the key for 7 days
                 alert("Access granted!");
                 location.reload();
             } else {
