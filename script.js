@@ -5,7 +5,7 @@ const terminal = document.getElementById("terminal");
 const mainInterface = document.getElementById("main-interface");
 const intro = document.getElementById("intro");
 
-let failCounter = parseInt(localStorage.getItem("failCounter")) || 0; 
+let failCounter = 0;
 
 let funnyMessages = [
     "Okay... Are you doing this on purpose?",
