@@ -53,7 +53,6 @@ function showIntroAnimation() {
         setTimeout(() => {
             intro.style.display = "none";
             mainInterface.style.display = "flex";
-            mainInterface.style.transition = 'opacity 1500ms';
             mainInterface.style.opacity = "1";
         }, 1000);
     }, 4000);
